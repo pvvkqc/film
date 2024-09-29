@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chọn Video</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        #video-container {
+            width: 80%;
+            max-width: 800px;
+            position: relative;
+        }
+
+        video {
+            width: 100%;
+            max-height: 450px;
+        }
+
+        #controls {
+            margin-top: 10px;
+        }
+
+        .video-list {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .video-list button {
+            margin: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #video-container.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            background-color: black;
+        }
+
+        #video-container.fullscreen video {
+            width: 100%;
+            height: 100%;
+        }
+
+        #fullscreen-btn {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Chọn Video</h1>
+
+    <div id="video-container">
+        <video id="video-player" controls>
+            <source src="video1.mp4" type="video/mp4">
+            Trình duyệt của bạn không hỗ trợ video.
+        </video>
+        <div id="controls">
+            <button id="fullscreen-btn">Phóng to</button>
+        </div>
+    </div>
+
+    <div class="video-list" id="video-list">
+        <button onclick="loadVideo('video1.mp4')">Video 1</button>
+        <button onclick="loadVideo('video2.mp4')">Video 2</button>
+        <button onclick="loadVideo('video3.mp4')">Video 3</button>
+    </div>
+
+    <script>
+        const videoPlayer = document.getElementById('video-player');
+        const videoContainer = document.getElementById('video-container');
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        const videoList = document.getElementById('video-list');
+        let isFullscreen = false;
+
+        // Load video function
+        function loadVideo(src) {
+            videoPlayer.src = src;
+            videoPlayer.play();
+        }
+
+        // Fullscreen toggle
+        fullscreenBtn.addEventListener('click', () => {
+            if (!isFullscreen) {
+                videoContainer.classList.add('fullscreen');
+                fullscreenBtn.textContent = 'Thu nhỏ';
+                videoList.style.display = 'block'; // Hiện danh sách video khi thu nhỏ
+            } else {
+                videoContainer.classList.remove('fullscreen');
+                fullscreenBtn.textContent = 'Phóng to';
+                videoList.style.display = 'none'; // Ẩn danh sách video khi phóng to
+            }
+            isFullscreen = !isFullscreen;
+        });
+
+        // Khởi tạo trang với video đầu tiên
+        window.onload = function () {
+            loadVideo('video1.mp4');
+        };
+    </script>
+</body>
+</html>
